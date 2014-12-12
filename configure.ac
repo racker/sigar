@@ -35,7 +35,6 @@ case $host_os in
      SRC_OS="darwin"
      AC_DEFINE(DARWIN,[],[running on MacOS X])
      AC_DEFINE(SIGAR_TEST_OS_DARWIN, [1], [for the tests])
-     SIGAR_INCLUDES="-I /Developer/Headers/FlatCarbon/"
      SIGAR_LIBS="-framework IOKit -framework CoreServices"
      ;;
      *netbsd*)
@@ -74,7 +73,7 @@ case $host_os in
 esac
 AC_MSG_RESULT([$SRC_OS])
 
-AC_CHECK_HEADERS(libproc.h valgrind/valgrind.h)
+AC_CHECK_HEADERS(utmp.h utmpx.h libproc.h valgrind/valgrind.h)
 if test $ac_cv_header_libproc_h = yes; then
         AC_DEFINE(DARWIN_HAS_LIBPROC_H, [1], [sigar named them DARWIN_HAS_... instead of HAVE_])
 fi

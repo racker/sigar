@@ -16,11 +16,6 @@
  * limitations under the License.
  */
 
-#include "sigar.h"
-#include "sigar_private.h"
-#include "sigar_util.h"
-#include "sigar_os.h"
-
 #include <sys/param.h>
 #include <sys/mount.h>
 #if !(defined(__FreeBSD__) && (__FreeBSD_version >= 800000))
@@ -50,8 +45,7 @@
 #endif
 #include <mach-o/dyld.h>
 #define __OPENTRANSPORTPROVIDERS__
-#include <Gestalt.h>
-#include <CFString.h>
+#include <CoreServices/CoreServices.h>
 #include <CoreFoundation/CoreFoundation.h>
 #include <IOKit/IOBSD.h>
 #include <IOKit/IOKitLib.h>
@@ -67,14 +61,6 @@
 #include <stdio.h>
 #endif
 
-#if defined(__FreeBSD__) && (__FreeBSD_version >= 500013)
-#define SIGAR_FREEBSD5_NFSSTAT
-#include <nfsclient/nfs.h>
-#include <nfsserver/nfs.h>
-#else
-#include <nfs/nfs.h>
-#endif
-
 #include <sys/ioctl.h>
 #include <sys/mount.h>
 #include <sys/resource.h>
@@ -88,6 +74,14 @@
 #include <net/route.h>
 #include <netinet/in.h>
 #include <netinet/if_ether.h>
+
+#if defined(__FreeBSD__) && (__FreeBSD_version >= 500013)
+#define SIGAR_FREEBSD5_NFSSTAT
+#include <nfsclient/nfs.h>
+#include <nfsserver/nfs.h>
+#else
+#include <nfs/nfs.h>
+#endif
 
 #include <dirent.h>
 #include <errno.h>
@@ -112,6 +106,11 @@
 #endif
 #include <netinet/tcp_var.h>
 #include <netinet/tcp_fsm.h>
+
+#include "sigar.h"
+#include "sigar_private.h"
+#include "sigar_util.h"
+#include "sigar_os.h"
 
 #define NMIB(mib) (sizeof(mib)/sizeof(mib[0]))
 
@@ -1241,6 +1240,13 @@ int sigar_proc_mem_get(sigar_t *sigar, sigar_pid_t pid,
 #endif
     return SIGAR_OK;
 }
+
+int sigar_proc_cumulative_disk_io_get(sigar_t *sigar, sigar_pid_t pid,
+                           sigar_proc_cumulative_disk_io_t *proc_cumulative_disk_io)
+{
+    return SIGAR_ENOTIMPL;
+}
+
 
 int sigar_proc_cred_get(sigar_t *sigar, sigar_pid_t pid,
                         sigar_proc_cred_t *proccred)
