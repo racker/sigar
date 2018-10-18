@@ -29,6 +29,9 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
+#ifdef HAVE_SYSMACROS_H
+#include <sys/sysmacros.h>
+#endif
 
 typedef struct {
     sigar_pid_t pid;
